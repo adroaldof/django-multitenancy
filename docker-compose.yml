@@ -21,7 +21,8 @@ services:
     volumes:
       - ./src:/app
     command: >
-      sh -c "python manage.py makemigrations &&
+      sh -c "python manage.py wait_for_db &&
+             python manage.py makemigrations &&
              python manage.py migrate &&
              python manage.py runserver 0.0.0.0:8000"
     environment:
@@ -31,8 +32,7 @@ services:
       - DB_USER=postgres
       - DB_PASS=supersecretpassword
       - DEBUG=1
-      - S3_STORAGE_BACKEND=0
-      - DJANGO_SECRET_KEY=ZyVwryvsERZQ9DGe3WdX10kBBVN0ZIQ6I3G6
+      - DJANGO_SECRET_KEY=change_me
     depends_on:
       - db
 

@@ -1,0 +1,40 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:10-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=app
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=supersecretpassword
+    volumes:
+      - app_db_data:/var/lib/postgresql/data
+
+  app:
+    build:
+      context: .
+    ports:
+      - "8000:8000"
+      - "9000:9000"
+    volumes:
+      - ./src:/app
+    command: >
+      sh -c "python manage.py makemigrations &&
+             python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_NAME=app
+      - DB_USER=postgres
+      - DB_PASS=supersecretpassword
+      - DEBUG=1
+      - S3_STORAGE_BACKEND=0
+      - DJANGO_SECRET_KEY=ZyVwryvsERZQ9DGe3WdX10kBBVN0ZIQ6I3G6
+    depends_on:
+      - db
+
+volumes:
+  app_db_data:

@@ -1,0 +1,5 @@
+Django==3.2.9
+uwsgi==2.0.20
+
+flake8==4.0.1
+black==21.10b0

@@ -31,6 +31,7 @@ ALLOWED_HOSTS.extend(filter(None, os.environ.get("ALLOWED_HOSTS", "").split(",")
 
 SHARED_APPS = (
     "django_tenants",
+    "rest_framework",
     "core",
     "headquarters",
     "django.contrib.admin",
@@ -158,3 +159,11 @@ DEFAULT_FILE_STORAGE = "django_tenants.storage.TenantFileSystemStorage"
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+REST_FRAMEWORK = {
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 10,
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly"
+    ],
+}

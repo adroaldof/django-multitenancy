@@ -2,6 +2,7 @@ Django==3.2.9
 uwsgi==2.0.20
 psycopg2==2.8.6
 django-tenants==3.3.4
+djangorestframework==3.12.4
 
 flake8==4.0.1
 black==21.10b0

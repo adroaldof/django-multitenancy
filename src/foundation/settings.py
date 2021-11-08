@@ -48,6 +48,7 @@ TENANT_APPS = (
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "departments",
 )
 
 INSTALLED_APPS = list(SHARED_APPS) + [
@@ -69,7 +70,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "foundation.urls"
+ROOT_URLCONF = "foundation.urls_tenants"
 
 PUBLIC_SCHEMA_URLCONF = "foundation.urls_public"
 

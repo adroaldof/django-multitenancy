@@ -32,6 +32,7 @@ ALLOWED_HOSTS.extend(filter(None, os.environ.get("ALLOWED_HOSTS", "").split(",")
 SHARED_APPS = (
     "django_tenants",
     "core",
+    "headquarters",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -69,6 +70,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "foundation.urls"
+
+PUBLIC_SCHEMA_URLCONF = "foundation.urls_public"
 
 TEMPLATES = [
     {

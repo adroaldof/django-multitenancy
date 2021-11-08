@@ -13,7 +13,7 @@ import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -29,17 +29,36 @@ ALLOWED_HOSTS.extend(filter(None, os.environ.get("ALLOWED_HOSTS", "").split(",")
 
 # Application definition
 
-INSTALLED_APPS = [
+SHARED_APPS = (
+    "django_tenants",
+    "core",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "core",
+)
+
+TENANT_APPS = (
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+)
+
+INSTALLED_APPS = list(SHARED_APPS) + [
+    app for app in TENANT_APPS if app not in SHARED_APPS
 ]
 
+TENANT_MODEL = "headquarters.Headquarter"
+
+TENANT_DOMAIN_MODEL = "headquarters.Domain"
+
 MIDDLEWARE = [
+    "django_tenants.middleware.main.TenantMainMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -67,6 +86,8 @@ TEMPLATES = [
     },
 ]
 
+TEMPLATE_CONTEXT_PROCESSORS = ("django.core.context_processors.request",)
+
 WSGI_APPLICATION = "foundation.wsgi.application"
 
 
@@ -75,7 +96,7 @@ WSGI_APPLICATION = "foundation.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
+        "ENGINE": "django_tenants.postgresql_backend",
         "HOST": os.environ.get("DB_HOST"),
         "NAME": os.environ.get("DB_NAME"),
         "USER": os.environ.get("DB_USER"),
@@ -83,6 +104,7 @@ DATABASES = {
     }
 }
 
+DATABASE_ROUTERS = ("django_tenants.routers.TenantSyncRouter",)
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -125,6 +147,8 @@ MEDIA_URL = "/static/media/"
 
 MEDIA_ROOT = "/vol/web/media"
 STATIC_ROOT = "/vol/web/static"
+
+DEFAULT_FILE_STORAGE = "django_tenants.storage.TenantFileSystemStorage"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

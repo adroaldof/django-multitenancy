@@ -32,15 +32,15 @@ ALLOWED_HOSTS.extend(filter(None, os.environ.get("ALLOWED_HOSTS", "").split(",")
 
 SHARED_APPS = (
     "django_tenants",
-    "rest_framework",
-    "core",
-    "headquarters",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "rest_framework",
+    "core",
+    "headquarters",
 )
 
 TENANT_APPS = (

@@ -6,4 +6,4 @@ from headquarters.models import Headquarter
 
 @admin.register(Headquarter)
 class HeadquarterAdmin(TenantAdminMixin, admin.ModelAdmin):
-    list_display = ("name", "is_active", "created_at")
+    list_display = ("name", "schema_name", "is_active", "created_at")

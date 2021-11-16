@@ -6,3 +6,4 @@ djangorestframework==3.12.4
 
 flake8==4.0.1
 black==21.10b0
+ipdb==0.13.9

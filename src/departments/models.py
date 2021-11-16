@@ -8,5 +8,8 @@ class Department(models.Model):
 
     auto_create_schema = True
 
+    class Meta:
+        ordering = ["name"]
+
     def __str__(self):
         return self.name

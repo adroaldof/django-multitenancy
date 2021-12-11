@@ -1,12 +1,10 @@
-from rest_framework import viewsets, permissions, status
-from rest_framework.views import APIView
-from rest_framework.response import Response
+from rest_framework import viewsets
 
-from headquarters.models import Domain, Headquarter
+from headquarters.models import Headquarter
 from headquarters.serializers import HeadquarterSerializer
 
 
-class HeadquarterViewSet(viewsets.ModelViewSet):
+class HeadquartersViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows headquarters to be viewed or edited.
     """

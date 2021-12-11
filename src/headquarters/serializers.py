@@ -3,37 +3,34 @@ from rest_framework import serializers
 from headquarters.models import Domain, Headquarter
 
 
-class DomainSerializer(serializers.HyperlinkedModelSerializer):
+class DomainSerializer(serializers.ModelSerializer):
     class Meta:
         model = Domain
-        fields = ["id", "tenant_id", "domain", "is_primary"]
+        fields = "__all__"
 
 
-class HeadquarterSerializer(serializers.HyperlinkedModelSerializer):
-    domains = DomainSerializer(many=True)
+class HeadquarterSerializer(serializers.ModelSerializer):
+    sub_domains = serializers.ListField(required=False)
 
     class Meta:
         model = Headquarter
-        read_only_fields = ("id",)
-        fields = [
-            "id",
-            "name",
-            "schema_name",
-            "is_active",
-            "created_at",
-            "domains",
-        ]
+        read_only_fields = ("id", "created_at")
+        fields = ["id", "name", "schema_name", "sub_domains"]
+        depth = 10
 
     def create(self, validated_data):
-        domains_data = validated_data.pop("domains")
+        sub_domains = validated_data.pop("sub_domains", [])
 
-        headquarter = Headquarter.objects.create(**validated_data)
+        tenant = Headquarter.objects.create(**validated_data)
 
-        domains_without_dot = Domain.objects.filter().exclude(domain__contains=".")
-        root_domain = domains_without_dot.first()
+        try:
+            root_domain = Domain.objects.filter().exclude(domain__contains=".").first()
 
-        for domain_data in domains_data:
-            domain = f"{domain_data.get('domain')}.{root_domain}"
-            Domain.objects.create(tenant_id=headquarter.id, domain=domain)
+            for sub_domain in sub_domains:
+                Domain.objects.create(
+                    tenant_id=tenant.id, domain=f"{sub_domain}.{root_domain}"
+                )
+        except:
+            pass
 
-        return headquarter
+        return tenant

@@ -2,7 +2,8 @@ version: "3.9"
 
 services:
   db:
-    image: postgres:10-alpine
+    container_name: db
+    image: postgres:14.1-alpine
     ports:
       - "5432:5432"
     environment:
@@ -13,6 +14,7 @@ services:
       - app_db_data:/var/lib/postgresql/data
 
   app:
+    container_name: app
     build:
       context: .
     ports:
@@ -32,7 +34,8 @@ services:
       - DB_USER=postgres
       - DB_PASS=supersecretpassword
       - DEBUG=1
-      - DJANGO_SECRET_KEY=change_me
+      - DJANGO_SECRET_KEY=remember_to_change_me
+      - ALLOWED_HOSTS=tenant.local,localhost,0.0.0.0
     depends_on:
       - db
 

@@ -1,0 +1,23 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+Django = "==3.2.9"
+django-tenants = "==3.3.4"
+djangorestframework = "==3.12.4"
+psycopg2 = "==2.8.6"
+uWSGI = "==2.0.20"
+
+[dev-packages]
+black = "==21.10b0"
+djangorestframework-stubs = "==0.4.0"
+flake8 = "==4.0.1"
+ipdb = "==0.13.9"
+isort = "==5.10.1"
+mypy = "==0.910"
+pyright = "==0.0.13"
+
+[requires]
+python_version = "3.9"

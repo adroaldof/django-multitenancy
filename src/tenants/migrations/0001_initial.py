@@ -13,7 +13,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name="Headquarter",
+            name="Tenant",
             fields=[
                 (
                     "id",
@@ -65,7 +65,7 @@ class Migration(migrations.Migration):
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
                         related_name="domains",
-                        to="headquarters.headquarter",
+                        to="tenants.tenant",
                     ),
                 ),
             ],

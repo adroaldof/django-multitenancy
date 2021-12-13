@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from headquarters.models import Domain, Headquarter
+from tenants.models import Domain, Tenant
 
 
 class DomainSerializer(serializers.ModelSerializer):
@@ -9,11 +9,11 @@ class DomainSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class HeadquarterSerializer(serializers.ModelSerializer):
+class TenantSerializer(serializers.ModelSerializer):
     sub_domains = serializers.ListField(required=False)
 
     class Meta:
-        model = Headquarter
+        model = Tenant
         read_only_fields = ("id", "created_at")
         fields = ["id", "name", "schema_name", "sub_domains"]
         depth = 10
@@ -21,7 +21,7 @@ class HeadquarterSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         sub_domains = validated_data.pop("sub_domains", [])
 
-        tenant = Headquarter.objects.create(**validated_data)
+        tenant = Tenant.objects.create(**validated_data)
 
         try:
             root_domain = Domain.objects.filter().exclude(domain__contains=".").first()
@@ -34,3 +34,9 @@ class HeadquarterSerializer(serializers.ModelSerializer):
             pass
 
         return tenant
+
+
+class TenantDomainsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Domain
+        fields = ["id", "domain"]

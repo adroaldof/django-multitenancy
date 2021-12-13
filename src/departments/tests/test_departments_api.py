@@ -13,7 +13,7 @@ class PublicDepartmentsApiTests(TenantTestCase):
     def setUp(self):
         self.client = TenantClient(self.tenant)
 
-    def test_get_all_headquarters(self):
+    def test_get_all_tenants(self):
         response = self.client.get(DEPARTMENTS_URL)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)

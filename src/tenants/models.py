@@ -2,7 +2,7 @@ from django.db import models
 from django_tenants.models import TenantMixin, DomainMixin
 
 
-class Headquarter(TenantMixin):
+class Tenant(TenantMixin):
     """
     The model responsible for the tenants
     """
@@ -21,4 +21,5 @@ class Headquarter(TenantMixin):
 
 
 class Domain(DomainMixin):
-    pass
+    class Meta:
+        ordering = ["tenant_id", "domain"]

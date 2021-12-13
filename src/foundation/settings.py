@@ -40,7 +40,7 @@ SHARED_APPS = (
     "django.contrib.staticfiles",
     "rest_framework",
     "core",
-    "headquarters",
+    "tenants",
 )
 
 TENANT_APPS = (
@@ -57,9 +57,9 @@ INSTALLED_APPS = list(SHARED_APPS) + [
     app for app in TENANT_APPS if app not in SHARED_APPS
 ]
 
-TENANT_MODEL = "headquarters.Headquarter"
+TENANT_MODEL = "tenants.Tenant"
 
-TENANT_DOMAIN_MODEL = "headquarters.Domain"
+TENANT_DOMAIN_MODEL = "tenants.Domain"
 
 MIDDLEWARE = [
     "django_tenants.middleware.main.TenantMainMiddleware",

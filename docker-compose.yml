@@ -7,11 +7,11 @@ services:
     ports:
       - "5432:5432"
     environment:
-      - POSTGRES_DB=app
+      - POSTGRES_DB=tenants
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=supersecretpassword
     volumes:
-      - app_db_data:/var/lib/postgresql/data
+      - tenants_db_data:/var/lib/postgresql/data
 
   app:
     container_name: app
@@ -30,7 +30,7 @@ services:
     environment:
       - DB_HOST=db
       - DB_PORT=5432
-      - DB_NAME=app
+      - DB_NAME=tenants
       - DB_USER=postgres
       - DB_PASS=supersecretpassword
       - DEBUG=1
@@ -40,4 +40,4 @@ services:
       - db
 
 volumes:
-  app_db_data:
+  tenants_db_data:
